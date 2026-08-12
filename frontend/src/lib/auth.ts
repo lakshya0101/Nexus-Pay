@@ -10,13 +10,17 @@ import {
   CognitoUserAttribute,
 } from 'amazon-cognito-identity-js'
 
-const USER_POOL_ID = import.meta.env.VITE_COGNITO_USER_POOL_ID as string
-const CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID as string
+const USER_POOL_ID = (import.meta.env.VITE_COGNITO_USER_POOL_ID as string | undefined)?.trim()
+const CLIENT_ID = (import.meta.env.VITE_COGNITO_CLIENT_ID as string | undefined)?.trim()
 
-const userPool = new CognitoUserPool({
-  UserPoolId: USER_POOL_ID,
-  ClientId: CLIENT_ID,
-})
+export const isAuthConfigured = (): boolean => Boolean(USER_POOL_ID && CLIENT_ID)
+
+const userPool: CognitoUserPool | null = isAuthConfigured()
+  ? new CognitoUserPool({
+      UserPoolId: USER_POOL_ID!,
+      ClientId: CLIENT_ID!,
+    })
+  : null
 
 export type UserRole = 'admin' | 'user'
 
@@ -27,6 +31,12 @@ export function getRoleFromSession(session: CognitoUserSession): UserRole {
 }
 
 export function signIn(email: string, password: string): Promise<CognitoUserSession> {
+  if (!userPool) {
+    return Promise.reject(
+      new Error('Authentication is not configured. AWS Cognito User Pool environment variables (VITE_COGNITO_USER_POOL_ID, VITE_COGNITO_CLIENT_ID) are missing.')
+    )
+  }
+
   const user = new CognitoUser({ Username: email, Pool: userPool })
   const authDetails = new AuthenticationDetails({ Username: email, Password: password })
 
@@ -40,6 +50,12 @@ export function signIn(email: string, password: string): Promise<CognitoUserSess
 }
 
 export function signUp(email: string, password: string): Promise<void> {
+  if (!userPool) {
+    return Promise.reject(
+      new Error('Authentication is not configured. AWS Cognito User Pool environment variables (VITE_COGNITO_USER_POOL_ID, VITE_COGNITO_CLIENT_ID) are missing.')
+    )
+  }
+
   const attributes = [
     new CognitoUserAttribute({ Name: 'email', Value: email }),
   ]
@@ -52,6 +68,12 @@ export function signUp(email: string, password: string): Promise<void> {
 }
 
 export function confirmSignUp(email: string, code: string): Promise<void> {
+  if (!userPool) {
+    return Promise.reject(
+      new Error('Authentication is not configured. AWS Cognito User Pool environment variables (VITE_COGNITO_USER_POOL_ID, VITE_COGNITO_CLIENT_ID) are missing.')
+    )
+  }
+
   const user = new CognitoUser({ Username: email, Pool: userPool })
   return new Promise((resolve, reject) => {
     user.confirmRegistration(code, true, (err) => {
@@ -62,11 +84,13 @@ export function confirmSignUp(email: string, code: string): Promise<void> {
 }
 
 export function signOut(): void {
+  if (!userPool) return
   const user = userPool.getCurrentUser()
   user?.signOut()
 }
 
 export function getSession(): Promise<CognitoUserSession | null> {
+  if (!userPool) return Promise.resolve(null)
   const user = userPool.getCurrentUser()
   if (!user) return Promise.resolve(null)
 

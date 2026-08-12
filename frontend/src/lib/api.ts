@@ -5,7 +5,7 @@
  */
 import { getIdToken } from './auth'
 
-const API_BASE = import.meta.env.VITE_API_URL as string
+const API_BASE = (import.meta.env.VITE_API_URL as string) || ''
 
 async function authHeaders(): Promise<Record<string, string>> {
   const token = await getIdToken()
