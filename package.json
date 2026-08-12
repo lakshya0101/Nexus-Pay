@@ -1,0 +1,12 @@
+{
+  "name": "agentcore-payments",
+  "version": "1.0.0",
+  "private": true,
+  "description": "x402 Payment Agent — AgentCore Payments + agent-economy storefront",
+  "scripts": {
+    "setup": "bash test/integration/setup_backend.sh && bash test/integration/setup_amplify.sh",
+    "setup:backend": "bash test/integration/setup_backend.sh",
+    "setup:amplify": "bash test/integration/setup_amplify.sh",
+    "cleanup": "bash test/integration/cleanup.sh"
+  }
+}
