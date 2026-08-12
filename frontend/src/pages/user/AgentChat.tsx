@@ -1018,15 +1018,15 @@ export function AgentChat() {
   const truncAddr = (addr: string) => addr.length > 12 ? addr.slice(0, 6) + '…' + addr.slice(-4) : addr
 
   return (
-    <div className="flex h-[calc(100vh-3rem)] flex-col">
+    <div className="flex h-[calc(100vh-6rem)] flex-col space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border pb-3">
         <div className="shrink-0">
-          <h1 className="text-lg font-bold text-text-primary">Agent Chat</h1>
+          <h1 className="text-xl font-bold tracking-tight text-text-primary">Nexus AI Agent</h1>
           <p className="text-xs text-text-muted">
             {isVoiceMode
-              ? wsStatus === 'connected' ? '\uD83C\uDF99\uFE0F Voice active' : wsStatus === 'connecting' ? 'Connecting\u2026' : 'Voice off'
-              : wsStatus === 'connected' ? 'Text mode \u2014 connected' : wsStatus === 'connecting' ? 'Connecting\u2026' : 'Select wallet & connect'}
+              ? wsStatus === 'connected' ? '🎙️ Voice active' : wsStatus === 'connecting' ? 'Connecting…' : 'Voice off'
+              : wsStatus === 'connected' ? 'Connected to AWS Bedrock Runtime' : 'Demo Mode — AWS payment backend not connected'}
           </p>
         </div>
         {/* Centered instrument selector + balance */}

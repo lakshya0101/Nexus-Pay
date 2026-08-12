@@ -252,8 +252,8 @@ export function Instruments() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-bold text-text-primary">My Instruments</h1>
-          <p className="text-xs text-text-muted mt-0.5">Embedded crypto wallets provisioned for payments</p>
+          <h1 className="text-xl font-bold tracking-tight text-text-primary">Nexus Wallets</h1>
+          <p className="text-xs text-text-muted mt-0.5">Embedded EVM & Solana crypto wallets provisioned for Web3 payments and AI agent delegation</p>
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" size="sm" onClick={refresh} disabled={loading} icon={<RefreshCw size={14} />}>Refresh</Button>

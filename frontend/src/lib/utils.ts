@@ -19,7 +19,9 @@ export function formatDate(iso: string): string {
 
 export function statusBadgeClasses(status: string): string {
   const s = (status || 'UNKNOWN').toUpperCase()
-  if (['READY', 'ACTIVE', 'PROOF_GENERATED'].includes(s))
+  if (s === 'DEMO')
+    return 'bg-amber-500/10 text-amber-600 font-bold border border-amber-500/20'
+  if (['READY', 'ACTIVE', 'PROOF_GENERATED', 'COMPLETED'].includes(s))
     return 'bg-success-muted text-success'
   if (['PENDING', 'CREATING', 'UPDATING'].includes(s))
     return 'bg-warning-muted text-warning'

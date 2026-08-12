@@ -2,18 +2,26 @@ import { cn } from '@/lib/utils'
 import type { ReactNode } from 'react'
 
 interface CardProps {
-  children: ReactNode
+  children?: ReactNode
   className?: string
   hover?: boolean
+  title?: ReactNode
+  description?: ReactNode
 }
 
-export function Card({ children, className, hover }: CardProps) {
+export function Card({ children, className, hover, title, description }: CardProps) {
   return (
     <div className={cn(
       'rounded-xl border border-border bg-surface-1 p-5',
       hover && 'transition-colors hover:border-border-hover hover:bg-surface-2',
       className,
     )}>
+      {(title || description) && (
+        <div className="mb-4">
+          {title && <h3 className="text-sm font-semibold text-text-primary tracking-wide">{title}</h3>}
+          {description && <p className="text-xs text-text-muted mt-0.5">{description}</p>}
+        </div>
+      )}
       {children}
     </div>
   )

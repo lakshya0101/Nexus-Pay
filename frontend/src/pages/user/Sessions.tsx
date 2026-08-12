@@ -219,13 +219,13 @@ export function Sessions() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-bold text-text-primary">My Sessions</h1>
-          <p className="text-xs text-text-muted mt-0.5">Payment sessions with spend budgets</p>
+          <h1 className="text-xl font-bold tracking-tight text-text-primary">Nexus Allowances</h1>
+          <p className="text-xs text-text-muted mt-0.5">Pre-authorized AI Agent spending rules, transaction caps, and category permissions</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex gap-2">
             <Button variant="secondary" size="sm" onClick={refresh} disabled={loading} icon={<RefreshCw size={14} />}>Refresh</Button>
-            <Button size="sm" onClick={() => setCreating(true)} icon={<Plus size={14} />}>Create Session</Button>
+            <Button size="sm" onClick={() => setCreating(true)} icon={<Plus size={14} />}>Create Allowance Rule</Button>
           </div>
         </div>
       </div>

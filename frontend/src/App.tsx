@@ -13,13 +13,14 @@ const PaymentConnectors = lazy(() => import('@/pages/admin/PaymentConnectors').t
 const AdminHowItWorks = lazy(() => import('@/pages/admin/HowItWorks').then(m => ({ default: m.AdminHowItWorks })))
 const SellerSetup = lazy(() => import('@/pages/admin/SellerSetup').then(m => ({ default: m.SellerSetup })))
 const SellerOrders = lazy(() => import('@/pages/admin/SellerOrders').then(m => ({ default: m.SellerOrders })))
+
+const Dashboard = lazy(() => import('@/pages/user/Dashboard').then(m => ({ default: m.Dashboard })))
+const Pay = lazy(() => import('@/pages/user/Pay').then(m => ({ default: m.Pay })))
+const History = lazy(() => import('@/pages/user/History').then(m => ({ default: m.History })))
 const Instruments = lazy(() => import('@/pages/user/Instruments').then(m => ({ default: m.Instruments })))
 const ConnectAgent = lazy(() => import('@/pages/user/ConnectAgent').then(m => ({ default: m.ConnectAgent })))
 const Sessions = lazy(() => import('@/pages/user/Sessions').then(m => ({ default: m.Sessions })))
 const AgentChat = lazy(() => import('@/pages/user/AgentChat').then(m => ({ default: m.AgentChat })))
-const Library = lazy(() => import('@/pages/user/Library').then(m => ({ default: m.Library })))
-const Orders = lazy(() => import('@/pages/user/Orders').then(m => ({ default: m.Orders })))
-const Information = lazy(() => import('@/pages/user/Information').then(m => ({ default: m.Information })))
 
 function PageLoader() {
   return (
@@ -78,15 +79,9 @@ export default function App() {
     if (!isAdmin && !userStore._prefetched) {
       const prefetchUser = async () => {
         try {
-          // Tier 1 — bootstrap manager + connector options from the
-          // user-scoped, read-only endpoint. Regular users CANNOT call the
-          // admin /admin/managers route (403), so we use /user/payment-options
-          // which returns only the non-sensitive identifiers needed to create
-          // instruments and sessions.
           const optsRes = await api.getPaymentOptions().catch(() => null)
           const options = optsRes?.paymentOptions || []
 
-          // Shape into the manager/connector records the pages already consume.
           const managers = options.map((o) => ({
             paymentManagerId: o.paymentManagerId,
             paymentManagerArn: o.paymentManagerArn,
@@ -108,17 +103,11 @@ export default function App() {
 
           const managerArns = managers.map((m) => m.paymentManagerArn).filter(Boolean)
 
-          // Tier 2 — the user's own instruments + sessions (scoped to their
-          // Cognito sub by the backend). Independent, run in parallel.
           const [instrRes, sessRes] = await Promise.all([
             api.listAllInstruments(managerArns).catch(() => ({ paymentInstruments: [] })),
             api.listAllSessions(managerArns).catch(() => ({ paymentSessions: [] })),
           ])
 
-          // ListPaymentInstruments returns IDs + status but NOT the wallet
-          // address/network (those live only on GetPaymentInstrument). Enrich
-          // each row with a parallel Get so the store carries full details for
-          // every consumer (Instruments table, Agent Chat context).
           const listedInstruments = instrRes.paymentInstruments || []
           const enrichedInstruments = await Promise.all(
             listedInstruments.map(async (inst: any) => {
@@ -133,8 +122,8 @@ export default function App() {
               }
             })
           )
-          userStore.setInstruments(enrichedInstruments)
-          userStore.setSessions(sessRes.paymentSessions || [])
+          if (enrichedInstruments.length > 0) userStore.setInstruments(enrichedInstruments)
+          if ((sessRes.paymentSessions || []).length > 0) userStore.setSessions(sessRes.paymentSessions || [])
         } catch { /* best-effort */ }
         userStore.markPrefetched()
       }
@@ -164,16 +153,18 @@ export default function App() {
             </>
           )}
 
-          {/* User routes — only for user role */}
-          {role === 'user' && (
+          {/* Nexus Pay User routes */}
+          {(role === 'user' || !role) && (
             <>
-              <Route path="/user" element={<Instruments />} />
-              <Route path="/user/connect-agent" element={<ConnectAgent />} />
-              <Route path="/user/sessions" element={<Sessions />} />
+              <Route path="/user" element={<Dashboard />} />
+              <Route path="/user/pay" element={<Pay />} />
+              <Route path="/user/wallets" element={<Instruments />} />
               <Route path="/user/agent" element={<AgentChat />} />
-              <Route path="/user/library" element={<Library />} />
-              <Route path="/user/orders" element={<Orders />} />
-              <Route path="/user/how-it-works" element={<Information />} />
+              <Route path="/user/allowances" element={<Sessions />} />
+              <Route path="/user/history" element={<History />} />
+              {/* Backwards compat aliases */}
+              <Route path="/user/sessions" element={<Navigate to="/user/allowances" replace />} />
+              <Route path="/user/connect-agent" element={<ConnectAgent />} />
             </>
           )}
 

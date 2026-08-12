@@ -92,10 +92,81 @@ interface UserState {
   reset: () => void
 }
 
+const DEMO_INSTRUMENTS: PaymentInstrument[] = [
+  {
+    paymentInstrumentId: 'pi_evm_nexus_01',
+    paymentManagerArn: 'demo-payment-manager',
+    paymentConnectorId: 'conn_coinbase_base_sepolia',
+    userId: 'user_nexus_demo',
+    paymentInstrumentType: 'CRYPTO_EMBEDDED_WALLET',
+    paymentInstrumentDetails: {
+      embeddedCryptoWallet: {
+        network: 'BASE_SEPOLIA',
+        walletAddress: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F',
+        linkedAccounts: [{ email: { emailAddress: 'demo@nexuspay.io' } }],
+      },
+    },
+    status: 'ACTIVE',
+    createdAt: new Date(Date.now() - 86400000 * 3).toISOString(),
+  },
+  {
+    paymentInstrumentId: 'pi_sol_nexus_02',
+    paymentManagerArn: 'demo-payment-manager',
+    paymentConnectorId: 'conn_stripe_solana_devnet',
+    userId: 'user_nexus_demo',
+    paymentInstrumentType: 'CRYPTO_EMBEDDED_WALLET',
+    paymentInstrumentDetails: {
+      embeddedCryptoWallet: {
+        network: 'SOLANA_DEVNET',
+        walletAddress: '7XwK8vPqM2n9B1c3D4e5F6g7H8j9K0l1M2n3P4q5R6s7',
+        linkedAccounts: [{ email: { emailAddress: 'demo@nexuspay.io' } }],
+      },
+    },
+    status: 'ACTIVE',
+    createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
+  },
+]
+
+const DEMO_SESSIONS: PaymentSession[] = [
+  {
+    paymentSessionId: 'ps_nexus_allowance_daily',
+    paymentManagerArn: 'demo-payment-manager',
+    userId: 'user_nexus_demo',
+    limits: {
+      maxSpendAmount: { value: '50.00', currency: 'USDC' },
+    },
+    currentSpendAmount: { value: '12.50', currency: 'USDC' },
+    expiryTimeInMinutes: 1440,
+    status: 'ACTIVE',
+    createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
+  },
+]
+
+const DEMO_TRANSACTIONS: ProcessPaymentResult[] = [
+  {
+    processPaymentId: 'tx_nexus_demo_001',
+    paymentManagerArn: 'demo-payment-manager',
+    paymentSessionId: 'ps_nexus_allowance_daily',
+    paymentInstrumentId: 'pi_evm_nexus_01',
+    paymentType: 'CRYPTO_X402',
+    status: 'DEMO',
+    createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
+  },
+  {
+    processPaymentId: 'tx_nexus_demo_002',
+    paymentManagerArn: 'demo-payment-manager',
+    paymentSessionId: 'ps_nexus_allowance_daily',
+    paymentInstrumentId: 'pi_evm_nexus_01',
+    paymentType: 'CRYPTO_X402',
+    status: 'DEMO',
+    createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
+  },
+]
+
 const USER_INITIAL = {
-  instruments: [] as PaymentInstrument[],
-  sessions: [] as PaymentSession[],
-  transactions: [] as ProcessPaymentResult[],
+  instruments: DEMO_INSTRUMENTS,
+  sessions: DEMO_SESSIONS,
+  transactions: DEMO_TRANSACTIONS,
   _prefetched: false,
 }
 
