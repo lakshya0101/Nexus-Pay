@@ -29,6 +29,7 @@ type GeneratedItem = {
 }
 type LibraryItem = PurchaseItem | GeneratedItem
 
+// Simple check for image extension
 function isImage(name: string) {
   return /\.(png|jpe?g|gif|webp|svg)$/i.test(name)
 }
@@ -57,27 +58,29 @@ export function Library() {
     `${STOREFRONT_API.replace(/\/+$/, '')}/orders/${orderId}/download`
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 animate-fade-in-up">
+      <div className="flex items-center justify-between border-b border-border/10 pb-4">
         <div>
-          <h1 className="text-lg font-bold text-text-primary flex items-center gap-2">
-            <LibraryIcon size={18} /> Library
-          </h1>
-          <p className="text-xs text-text-muted mt-0.5">
+          <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight">Library</h1>
+          <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">
             Your purchased digital goods and saved generated images. Downloading a purchased file makes it non-refundable.
           </p>
         </div>
-        <Button variant="secondary" size="sm" onClick={refresh} disabled={loading}>
-          <RefreshCw size={13} className={loading ? 'animate-spin' : ''} /> Refresh
+        <Button variant="secondary" size="sm" onClick={refresh} disabled={loading} icon={<RefreshCw size={13} className={loading ? 'animate-spin' : ''} />}>
+          Refresh
         </Button>
       </div>
 
       {error && (
-        <Card><p className="text-sm text-danger">{error}</p></Card>
+        <Card className="border-danger/10 bg-danger-muted p-4">
+          <p className="text-sm text-danger font-medium">{error}</p>
+        </Card>
       )}
 
       {loading ? (
-        <Card><p className="text-sm text-text-muted">Loading library…</p></Card>
+        <div className="flex items-center justify-center py-20">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+        </div>
       ) : items.length === 0 ? (
         <EmptyState
           icon={<LibraryIcon size={24} />}
@@ -85,22 +88,24 @@ export function Library() {
           description="Buy a digital product or generate an image with the agent, and it will appear here."
         />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {items.map((item) => (
             item.kind === 'generated' ? (
-              <Card key={item.key} className="flex flex-col gap-3">
-                <div className="aspect-video rounded-lg bg-surface-2 flex items-center justify-center overflow-hidden">
+              <Card key={item.key} className="flex flex-col gap-4 border border-border shadow-sm bg-surface-1 hover:bg-surface-2 transition-all duration-300 ease-out hover:-translate-y-0.5">
+                <div className="aspect-video rounded-lg bg-surface-2 flex items-center justify-center overflow-hidden border border-border/20 shadow-inner">
                   {isImage(item.name) ? (
-                    <img src={item.url} alt={item.name} className="w-full h-full object-cover" />
+                    <img src={item.url} alt={item.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                   ) : (
-                    <FileText size={32} className="text-text-muted" />
+                    <FileText size={32} className="text-text-secondary" />
                   )}
                 </div>
-                <div className="flex items-start gap-2">
-                  <ImageIcon size={14} className="text-accent mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 px-1">
+                  <div className="rounded-lg bg-accent-muted p-2 text-accent border border-accent/10 shrink-0">
+                    <ImageIcon size={14} />
+                  </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-text-primary truncate">{item.name}</p>
-                    <p className="text-[11px] text-text-muted">Generated image</p>
+                    <p className="text-sm font-bold text-text-primary truncate">{item.name}</p>
+                    <p className="text-[10px] text-text-secondary font-semibold uppercase tracking-wider mt-0.5">Generated</p>
                   </div>
                 </div>
                 <a
@@ -108,38 +113,42 @@ export function Library() {
                   download={item.name}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-1.5 rounded-lg bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent hover:bg-accent/20"
+                  className="flex items-center justify-center gap-2 rounded-lg bg-accent text-white px-3 py-2 text-xs font-bold hover:bg-accent-hover transition-colors duration-300 shadow-sm shadow-accent/20"
                 >
                   <Download size={13} /> Download
                 </a>
               </Card>
             ) : (
-              <Card key={item.orderId} className="flex flex-col gap-3">
-                <div className="aspect-video rounded-lg bg-surface-2 flex items-center justify-center">
-                  <FileText size={32} className="text-text-muted" />
+              <Card key={item.orderId} className="flex flex-col gap-4 border border-border shadow-sm bg-surface-1 hover:bg-surface-2 transition-all duration-300 ease-out hover:-translate-y-0.5">
+                <div className="aspect-video rounded-lg bg-surface-2 flex items-center justify-center border border-border/20 shadow-inner">
+                  <FileText size={32} className="text-text-secondary animate-pulse" />
                 </div>
-                <div className="flex items-start gap-2">
-                  <FileText size={14} className="text-accent mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 px-1">
+                  <div className="rounded-lg bg-accent-muted p-2 text-accent border border-accent/10 shrink-0">
+                    <FileText size={14} />
+                  </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-text-primary truncate">{item.name}</p>
-                    <p className="text-[11px] text-text-muted">Purchased</p>
+                    <p className="text-sm font-bold text-text-primary truncate">{item.name}</p>
+                    <p className="text-[10px] text-text-secondary font-semibold uppercase tracking-wider mt-0.5">Purchased Product</p>
                   </div>
                 </div>
                 {item.refundable ? (
-                  <div className="flex items-start gap-1.5 rounded-md bg-amber-500/10 px-2.5 py-1.5">
-                    <AlertTriangle size={12} className="text-amber-400 mt-0.5 shrink-0" />
-                    <p className="text-[11px] text-amber-300 leading-snug">
+                  <div className="flex items-start gap-2 rounded-lg bg-warning-muted border border-warning/15 px-3 py-2.5 mx-1 shadow-inner">
+                    <AlertTriangle size={13} className="text-warning mt-0.5 shrink-0" />
+                    <p className="text-[10px] text-text-secondary leading-snug font-medium">
                       Downloading makes this order non-refundable.
                     </p>
                   </div>
                 ) : (
-                  <p className="text-[11px] text-text-muted px-0.5">Downloaded · non-refundable</p>
+                  <div className="bg-surface-2 border border-border/30 rounded-lg px-3 py-2 mx-1 text-center">
+                    <p className="text-[10px] text-text-secondary font-semibold uppercase tracking-wider">Downloaded · Non-refundable</p>
+                  </div>
                 )}
                 <a
                   href={downloadHref(item.orderId)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-1.5 rounded-lg bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent hover:bg-accent/20"
+                  className="flex items-center justify-center gap-2 rounded-lg bg-accent text-white px-3 py-2 text-xs font-bold hover:bg-accent-hover transition-colors duration-300 shadow-sm shadow-accent/20"
                 >
                   <Download size={13} /> Download
                 </a>

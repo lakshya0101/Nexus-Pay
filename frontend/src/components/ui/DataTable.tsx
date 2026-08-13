@@ -23,15 +23,15 @@ export function DataTable<T>({ columns, data, keyExtractor, onRowClick, emptySta
   }
 
   return (
-    <div className={cn('overflow-x-auto', className)}>
-      <table className="w-full text-sm" role="table">
+    <div className={cn('overflow-x-auto w-full', className)}>
+      <table className="w-full text-sm border-collapse" role="table">
         <thead>
-          <tr className="border-b border-border">
+          <tr className="border-b border-border/80 bg-surface-1">
             {columns.map((col) => (
               <th
                 key={col.key}
                 className={cn(
-                  'px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-text-muted',
+                  'px-5 py-3.5 text-left text-[10px] font-bold uppercase tracking-widest text-text-muted',
                   col.className,
                 )}
                 scope="col"
@@ -41,18 +41,18 @@ export function DataTable<T>({ columns, data, keyExtractor, onRowClick, emptySta
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-border">
+        <tbody className="divide-y divide-border/40 bg-surface-1/50">
           {data.map((row) => (
             <tr
               key={keyExtractor(row)}
               className={cn(
-                'transition-colors',
-                onRowClick && 'cursor-pointer hover:bg-surface-2',
+                'transition-all duration-300 ease-out border-b border-border/10',
+                onRowClick && 'cursor-pointer hover:bg-surface-2/50',
               )}
               onClick={() => onRowClick?.(row)}
             >
               {columns.map((col) => (
-                <td key={col.key} className={cn('px-4 py-3 text-text-primary', col.className)}>
+                <td key={col.key} className={cn('px-5 py-3.5 text-text-primary text-xs font-medium', col.className)}>
                   {col.render(row)}
                 </td>
               ))}

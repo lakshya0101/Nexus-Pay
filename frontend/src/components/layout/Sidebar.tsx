@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, KeyRound, CreditCard, Link2, Wallet,
   BookOpen, Shield, User, LogOut,
-  Store, ShoppingBag, Send, Sparkles, Sliders, History, Zap
+  Store, ShoppingBag, Send, Sparkles, Sliders, History, Zap,
+  Sun, Moon,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/auth'
 
@@ -34,14 +36,18 @@ function NavItem({ to, icon: Icon, label, end }: {
       to={to}
       end={end}
       className={({ isActive }) => cn(
-        'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150',
+        'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out group',
         isActive
-          ? 'bg-accent-muted text-accent font-semibold'
-          : 'text-text-secondary hover:text-text-primary hover:bg-surface-3',
+          ? 'bg-gradient-to-r from-accent/8 to-accent-muted text-accent border-l-2 border-accent rounded-l-none pl-2.5 font-bold shadow-inner'
+          : 'text-text-secondary hover:translate-x-1 hover:text-text-primary hover:bg-surface-2',
       )}
     >
-      <Icon size={16} strokeWidth={1.8} />
-      {label}
+      {({ isActive }) => (
+        <>
+          <Icon size={16} strokeWidth={1.8} className={cn('transition-all duration-300', isActive ? 'text-accent scale-105' : 'text-text-secondary group-hover:text-text-primary group-hover:scale-105')} />
+          <span>{label}</span>
+        </>
+      )}
     </NavLink>
   )
 }
@@ -51,6 +57,26 @@ export function Sidebar() {
   const isAdmin = role === 'admin'
   const navigate = useNavigate()
 
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    return (localStorage.getItem('nexus-theme') as 'dark' | 'light') || 'dark'
+  })
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('light')
+    } else {
+      document.documentElement.classList.remove('light')
+    }
+    localStorage.setItem('nexus-theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light')
+  }
+
+  // Reset the URL to root on sign-out. App renders <Login/> whenever
+  // isAuthenticated is false, but without this the browser URL would stay on
+  // the previous /admin or /user path (login page shown over a stale URL).
   const handleSignOut = () => {
     signOut()
     navigate('/', { replace: true })
@@ -100,6 +126,20 @@ export function Sidebar() {
             {role || 'user'}
           </span>
         </div>
+        <button
+          onClick={toggleTheme}
+          className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-text-secondary hover:text-text-primary hover:bg-surface-3 transition-colors"
+        >
+          {theme === 'light' ? (
+            <>
+              <Moon size={12} /> Dark Mode
+            </>
+          ) : (
+            <>
+              <Sun size={12} /> Light Mode
+            </>
+          )}
+        </button>
         <button
           onClick={handleSignOut}
           className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-text-secondary hover:text-text-primary hover:bg-surface-3 transition-colors"

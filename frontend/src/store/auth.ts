@@ -27,6 +27,7 @@ interface AuthState {
   clearNeedsConfirmation: () => void
   signOut: () => void
   checkSession: () => Promise<void>
+  bypassSignIn: (role: UserRole) => void
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -128,5 +129,19 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch {
       set({ isAuthenticated: false, loading: false, initialized: true })
     }
+  },
+
+  bypassSignIn: (role) => {
+    set({
+      isAuthenticated: true,
+      email: `${role}-mock@agentcore-payments.dev`,
+      userId: `mock-user-id-${role}`,
+      role,
+      loading: false,
+      pendingEmail: null,
+      initialized: true,
+      error: null,
+      needsConfirmation: false,
+    })
   },
 }))

@@ -34,14 +34,29 @@ function budgetView(s: any) {
 function MiniBar({ pct }: { pct: number }) {
   const danger = pct >= 90
   const warn = pct >= 70 && pct < 90
+  const [width, setWidth] = useState(0)
+
+  useEffect(() => {
+    const t = setTimeout(() => setWidth(pct), 50)
+    return () => clearTimeout(t)
+  }, [pct])
+
   return (
-    <div className="h-1.5 w-20 overflow-hidden rounded-full bg-surface-3">
+    <div className="h-2 w-24 overflow-hidden rounded-full bg-surface-2/40 border border-border/30 shadow-inner relative">
       <div
         className={
-          danger ? 'h-full bg-danger' : warn ? 'h-full bg-amber-400' : 'h-full bg-success'
+          danger
+            ? 'h-full rounded-full bg-gradient-to-r from-red-600 to-red-400 transition-all duration-1000 ease-out relative'
+            : warn
+              ? 'h-full rounded-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all duration-1000 ease-out relative'
+              : 'h-full rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-1000 ease-out relative'
         }
-        style={{ width: `${pct}%` }}
-      />
+        style={{ width: `${width}%` }}
+      >
+        {width > 0 && (
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_6px_#fff]" />
+        )}
+      </div>
     </div>
   )
 }
@@ -216,11 +231,11 @@ export function Sessions() {
   ]
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 animate-fade-in-up">
+      <div className="flex items-center justify-between border-b border-border/10 pb-4">
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-text-primary">Nexus Allowances</h1>
-          <p className="text-xs text-text-muted mt-0.5">Pre-authorized AI Agent spending rules, transaction caps, and category permissions</p>
+          <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight">Nexus Allowances</h1>
+          <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">Pre-authorized AI Agent spending rules, transaction caps, and category permissions</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex gap-2">

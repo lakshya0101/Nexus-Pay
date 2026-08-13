@@ -1,17 +1,5 @@
 /**
  * Connect Agent — Privy session-signer attach page.
- *
- * AgentCore creates Privy-backed wallets server-side (keyed by the user's
- * email), but the agent can only sign x402 payments once the AgentCore
- * authorization-key quorum is attached as a session signer on each wallet.
- * That attach step is a one-time, per-wallet user action.
- *
- * This page ports the "Give access" flow from the Privy + AWS reference
- * frontend (privy-io/aws-agentcore-sdk → connect-agent-modal.tsx). The user
- * signs into Privy with the email that owns the wallets, then grants the
- * agent access by calling `addSessionSigners` across every Privy wallet on
- * the account. `addSessionSigners` is idempotent — Privy reports "already
- * exists" for wallets that are already covered, which we treat as success.
  */
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -24,6 +12,7 @@ import {
 } from '@privy-io/react-auth'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
 import { useAuthStore } from '@/store/auth'
 import { Info, ShieldCheck, ArrowLeft, Mail } from 'lucide-react'
 
@@ -113,11 +102,11 @@ export function ConnectAgent() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 animate-fade-in-up">
+      <div className="flex items-center justify-between border-b border-border/10 pb-4">
         <div>
-          <h1 className="text-lg font-bold text-text-primary">Connect Agent</h1>
-          <p className="text-xs text-text-muted mt-0.5">
+          <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight">Connect Agent</h1>
+          <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">
             Authorize the agent to sign payments from your Privy wallets
           </p>
         </div>
@@ -126,16 +115,16 @@ export function ConnectAgent() {
         </Button>
       </div>
 
-      <Card className="mx-auto max-w-lg space-y-5 p-6">
-        <div className="flex items-start gap-3">
-          <div className="rounded-full bg-accent-muted p-2 text-accent">
-            <ShieldCheck size={20} />
+      <Card className="mx-auto max-w-lg space-y-6 p-8 border border-border shadow-xl">
+        <div className="flex items-start gap-4">
+          <div className="rounded-xl bg-accent-muted p-2.5 text-accent border border-accent/15">
+            <ShieldCheck size={22} strokeWidth={1.8} />
           </div>
-          <div className="space-y-1">
-            <h2 className="text-sm font-semibold text-text-primary">
+          <div className="space-y-1.5">
+            <h2 className="text-sm font-bold text-text-primary tracking-wide">
               Give your agent access to your wallets
             </h2>
-            <p className="text-xs leading-relaxed text-text-muted">
+            <p className="text-xs leading-relaxed text-text-secondary font-medium">
               Your agent will be able to send transactions and spend funds from your
               Privy wallets on your behalf. You can revoke access at any time from the
               Privy dashboard.
@@ -143,41 +132,41 @@ export function ConnectAgent() {
           </div>
         </div>
 
-        <div className="flex items-start gap-2.5 rounded-lg border border-border bg-surface-2 px-3.5 py-3">
-          <Info className="mt-px size-4 shrink-0 text-text-muted" />
-          <p className="text-xs leading-snug text-text-muted">
+        <div className="flex items-start gap-3 rounded-lg border border-border/40 bg-surface-2 px-3.5 py-3 shadow-inner">
+          <Info className="mt-0.5 size-4 shrink-0 text-text-secondary" />
+          <p className="text-xs leading-relaxed text-text-secondary font-medium">
             Transactions initiated by your agent cannot be reversed.
           </p>
         </div>
 
         {error && (
-          <div className="rounded-lg bg-danger-muted px-3 py-2 text-xs text-danger">{error}</div>
+          <div className="rounded-lg bg-danger-muted border border-danger/10 px-3.5 py-2.5 text-xs text-danger leading-relaxed animate-fade-in-up">{error}</div>
         )}
 
         {done ? (
-          <div className="rounded-lg bg-success/10 px-3 py-3 text-xs text-success">
+          <div className="rounded-lg bg-success-muted border border-success/10 px-3.5 py-3.5 text-xs text-success leading-relaxed animate-fade-in-up">
             Agent connected. The session signer is attached to{' '}
-            {privyWallets.length === 1 ? 'your wallet' : `${privyWallets.length} wallets`} —
+            <span className="font-bold">{privyWallets.length === 1 ? 'your wallet' : `${privyWallets.length} wallets`}</span> —
             the agent can now sign x402 payments. You can close this page.
           </div>
         ) : !isPrivyAuthenticated ? (
           // ── Step 1: sign into Privy with the wallet owner's email ──
-          <div className="space-y-3">
-            <p className="text-xs text-text-secondary">
+          <div className="space-y-4 pt-2 border-t border-border/10">
+            <p className="text-xs text-text-secondary font-semibold">
               Sign in with the email that owns your Privy wallets to continue.
             </p>
             {!otpSent ? (
-              <div className="space-y-2">
-                <label className="block text-xs font-medium text-text-secondary">Email</label>
-                <input
+              <div className="space-y-4">
+                <Input
+                  label="Email"
                   type="email"
                   value={otpEmail}
                   onChange={(e) => setOtpEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary outline-none focus:border-accent"
+                  required
                 />
                 <Button
-                  className="w-full"
+                  className="w-full mt-2"
                   disabled={otpSending || !otpEmail}
                   onClick={handleSendOtp}
                   icon={<Mail size={14} />}
@@ -186,20 +175,19 @@ export function ConnectAgent() {
                 </Button>
               </div>
             ) : (
-              <div className="space-y-2">
-                <label className="block text-xs font-medium text-text-secondary">
-                  Verification code sent to {otpEmail}
-                </label>
-                <input
+              <div className="space-y-4">
+                <Input
+                  label={`Verification code sent to ${otpEmail}`}
                   type="text"
                   inputMode="numeric"
                   value={otpCode}
                   onChange={(e) => setOtpCode(e.target.value)}
                   placeholder="123456"
-                  className="w-full rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm font-mono text-text-primary outline-none focus:border-accent"
+                  required
+                  autoFocus
                 />
                 <Button
-                  className="w-full"
+                  className="w-full mt-2"
                   disabled={otpVerifying || !otpCode}
                   onClick={handleVerifyOtp}
                 >
@@ -207,7 +195,7 @@ export function ConnectAgent() {
                 </Button>
                 <button
                   type="button"
-                  className="w-full text-center text-[11px] text-text-muted hover:text-text-secondary"
+                  className="w-full text-center text-xs text-text-muted hover:text-text-primary transition-colors duration-300 font-semibold mt-1"
                   onClick={() => { setOtpSent(false); setOtpCode('') }}
                 >
                   Use a different email
@@ -217,14 +205,14 @@ export function ConnectAgent() {
           </div>
         ) : (
           // ── Step 2: attach the session signer across all Privy wallets ──
-          <div className="space-y-3">
-            <p className="text-xs text-text-secondary">
+          <div className="space-y-4 pt-2 border-t border-border/10">
+            <p className="text-xs text-text-secondary font-medium">
               {privyWallets.length === 0
                 ? 'No Privy wallets found on this account yet. Create a Privy instrument first, then return here.'
                 : `Found ${privyWallets.length} Privy wallet${privyWallets.length === 1 ? '' : 's'} on this account.`}
             </p>
             <Button
-              className="w-full"
+              className="w-full mt-2"
               disabled={busy || privyWallets.length === 0}
               onClick={handleGiveAccess}
               icon={<ShieldCheck size={14} />}
