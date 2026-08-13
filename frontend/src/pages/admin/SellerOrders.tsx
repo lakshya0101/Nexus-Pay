@@ -92,13 +92,13 @@ export function SellerOrders() {
   ]
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 animate-fade-in-up">
+      <div className="flex items-center justify-between border-b border-border/10 pb-4">
         <div>
-          <h1 className="text-lg font-bold text-text-primary flex items-center gap-2">
-            <ShoppingBag size={18} /> Orders
+          <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight flex items-center gap-2">
+            <ShoppingBag size={24} className="text-accent" /> Orders
           </h1>
-          <p className="text-xs text-text-muted mt-0.5">
+          <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">
             Orders placed by agents through the storefront. Refund a confirmed order to trigger a
             seller-originated reverse payment (governed by a spend-capped refund session).
           </p>

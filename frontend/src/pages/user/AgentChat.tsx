@@ -27,8 +27,8 @@ function ChatBubble({ message }: { message: AgentMessage }) {
 
   if (isSystem) {
     return (
-      <div className="flex justify-center py-2">
-        <span className="rounded-full bg-surface-3 px-3 py-1 text-[10px] text-text-muted">
+      <div className="flex justify-center py-2 animate-fade-in-up">
+        <span className="rounded-full border border-border/40 bg-surface-2 px-3 py-1 text-[10px] font-semibold tracking-wide text-text-secondary shadow-inner">
           {message.content}
         </span>
       </div>
@@ -38,18 +38,20 @@ function ChatBubble({ message }: { message: AgentMessage }) {
   const content = isUser ? message.content : stripThinking(message.content)
 
   return (
-    <div className={cn('flex gap-3 max-w-[85%]', isUser ? 'ml-auto flex-row-reverse' : '')}>
+    <div className={cn('flex gap-3 max-w-[85%] animate-fade-in-up', isUser ? 'ml-auto flex-row-reverse' : '')}>
       <div className={cn(
-        'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold',
-        isUser ? 'bg-accent text-white' : 'bg-surface-3 text-text-secondary',
+        'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold tracking-wide uppercase',
+        isUser
+          ? 'bg-accent text-white shadow-sm'
+          : 'bg-surface-2 border border-border text-text-primary shadow-inner',
       )}>
-        {isUser ? 'U' : 'A'}
+        {isUser ? 'Usr' : 'Agt'}
       </div>
       <div className={cn(
-        'relative rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap break-words overflow-hidden',
+        'relative rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap break-words overflow-hidden shadow-sm transition-all duration-300',
         isUser
-          ? 'bg-accent text-white rounded-br-md'
-          : 'bg-surface-2 text-text-primary border border-border rounded-bl-md',
+          ? 'bg-accent text-white rounded-tr-sm'
+          : 'bg-surface-1 text-text-primary border border-border rounded-tl-sm hover:border-border-hover',
       )}>
         {message.mediaUrl && message.mediaType === 'image' && (
           <a
@@ -74,7 +76,7 @@ function ChatBubble({ message }: { message: AgentMessage }) {
               loading="lazy"
             />
             {message.mediaTitle && (
-              <p className="mt-1 text-xs text-text-muted">{message.mediaTitle}</p>
+              <p className="mt-1.5 text-xs text-text-secondary font-medium">{message.mediaTitle}</p>
             )}
           </div>
         )}
@@ -84,12 +86,12 @@ function ChatBubble({ message }: { message: AgentMessage }) {
               <track kind="captions" />
             </audio>
             {message.mediaTitle && (
-              <p className="mt-1 text-xs text-text-muted">{message.mediaTitle}</p>
+              <p className="mt-1.5 text-xs text-text-secondary font-medium">{message.mediaTitle}</p>
             )}
           </div>
         )}
         {message.isStreaming && (
-          <span className="inline-block ml-1 w-1.5 h-4 bg-accent animate-pulse rounded-sm" />
+          <span className="inline-block ml-1 w-1.5 h-4 bg-accent animate-pulse rounded-sm align-middle" />
         )}
       </div>
     </div>
@@ -1020,23 +1022,23 @@ export function AgentChat() {
   return (
     <div className="flex h-[calc(100vh-3rem)] flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border pb-3">
+      <div className="flex items-center justify-between border-b border-border/10 pb-4 animate-fade-in-up">
         <div className="shrink-0">
-          <h1 className="text-lg font-bold text-text-primary">Agent Chat</h1>
-          <p className="text-xs text-text-muted">
+          <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight">Agent Chat</h1>
+          <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">
             {isVoiceMode
-              ? wsStatus === 'connected' ? '\uD83C\uDF99\uFE0F Voice active' : wsStatus === 'connecting' ? 'Connecting\u2026' : 'Voice off'
-              : wsStatus === 'connected' ? 'Text mode \u2014 connected' : wsStatus === 'connecting' ? 'Connecting\u2026' : 'Select wallet & connect'}
+              ? wsStatus === 'connected' ? '🎙️ Voice active' : wsStatus === 'connecting' ? 'Connecting…' : 'Voice off'
+              : wsStatus === 'connected' ? 'Text mode — connected' : wsStatus === 'connecting' ? 'Connecting…' : 'Select wallet & connect'}
           </p>
         </div>
         {/* Centered instrument selector + balance */}
         {instruments.length > 0 && (
-          <div className="flex flex-col items-center gap-0.5">
+          <div className="flex flex-col items-center gap-1.5">
             <div className="relative flex items-center gap-1.5">
               <select
                 value={selectedInstrumentId}
                 onChange={(e) => setSelectedInstrumentId(e.target.value)}
-                className="h-8 appearance-none rounded-lg border border-border bg-surface-2 pl-3 pr-7 text-xs text-text-primary focus:outline-none focus:ring-2 focus:ring-accent/50 cursor-pointer"
+                className="h-8 appearance-none rounded-lg border border-border bg-surface-1 pl-3 pr-7 text-xs font-semibold text-text-primary focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent cursor-pointer transition-all duration-300 ease-out"
               >
                 {instruments.map((inst) => {
                   const { network: net, walletAddress: addr } = getWalletDetails(inst)
@@ -1271,7 +1273,7 @@ export function AgentChat() {
 
       {/* Text Input */}
       {!isVoiceMode && (
-        <div className="border-t border-border pt-4">
+        <div className="border-t border-border/10 pt-4">
           <div className="flex items-center gap-2">
             <input
               ref={inputRef}
@@ -1279,12 +1281,13 @@ export function AgentChat() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={isSending ? 'Waiting for response\u2026' : 'Type a message\u2026'}
+              placeholder={isSending ? 'Waiting for response…' : 'Type a message…'}
               disabled={isSending}
               className={cn(
-                'flex-1 h-10 rounded-xl border border-border bg-surface-2 px-4 text-sm text-text-primary',
-                'placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent/50',
+                'flex-1 h-10 rounded-xl border border-border bg-surface-1 px-4 text-sm text-text-primary shadow-sm',
+                'placeholder:text-text-muted hover:border-border-hover focus:outline-none focus:ring-2 focus:ring-accent/25 focus:border-accent',
                 'disabled:opacity-40 disabled:cursor-not-allowed',
+                'transition-all duration-300 ease-out',
               )}
             />
             <Button

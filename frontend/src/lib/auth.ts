@@ -10,12 +10,14 @@ import {
   CognitoUserAttribute,
 } from 'amazon-cognito-identity-js'
 
-const USER_POOL_ID = import.meta.env.VITE_COGNITO_USER_POOL_ID as string
-const CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID as string
+const USER_POOL_ID = (import.meta.env.VITE_COGNITO_USER_POOL_ID as string) || 'us-east-1_placeholder'
+const CLIENT_ID = (import.meta.env.VITE_COGNITO_CLIENT_ID as string) || 'placeholderclientid123456789'
+
+console.log('[Auth Debug] USER_POOL_ID:', USER_POOL_ID, 'CLIENT_ID:', CLIENT_ID)
 
 const userPool = new CognitoUserPool({
-  UserPoolId: USER_POOL_ID,
-  ClientId: CLIENT_ID,
+  UserPoolId: USER_POOL_ID || 'us-east-1_placeholder',
+  ClientId: CLIENT_ID || 'placeholderclientid123456789',
 })
 
 export type UserRole = 'admin' | 'user'

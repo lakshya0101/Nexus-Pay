@@ -139,10 +139,10 @@ function StepCard({ step }: { step: typeof SETUP_STEPS[0] }) {
 
 export function AdminHowItWorks() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-lg font-bold text-text-primary">How It Works</h1>
-        <p className="text-xs text-text-muted mt-0.5">Admin setup flow for Amazon Bedrock AgentCore payments infrastructure</p>
+    <div className="space-y-6 animate-fade-in-up">
+      <div className="border-b border-border/10 pb-4">
+        <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight">How It Works</h1>
+        <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">Admin setup flow for Amazon Bedrock AgentCore payments infrastructure</p>
       </div>
 
       {/* Hero */}

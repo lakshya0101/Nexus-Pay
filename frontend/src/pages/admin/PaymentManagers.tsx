@@ -87,11 +87,11 @@ export function PaymentManagers() {
   ]
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 animate-fade-in-up">
+      <div className="flex items-center justify-between border-b border-border/10 pb-4">
         <div>
-          <h1 className="text-lg font-bold text-text-primary">Payment Managers</h1>
-          <p className="text-xs text-text-muted mt-0.5">Manage payment manager resources</p>
+          <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight">Payment Managers</h1>
+          <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">Manage payment manager resources</p>
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" size="sm" onClick={refresh} disabled={loading} icon={<RefreshCw size={14} />}>Refresh</Button>

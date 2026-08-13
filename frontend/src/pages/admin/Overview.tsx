@@ -328,10 +328,10 @@ export function AdminOverview() {
   ]
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-lg font-bold text-text-primary">Admin Overview</h1>
-        <p className="text-xs text-text-muted mt-0.5">Control plane resource status at a glance</p>
+    <div className="space-y-6 animate-fade-in-up">
+      <div className="border-b border-border/10 pb-4">
+        <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight">Admin Overview</h1>
+        <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">Control plane resource status at a glance</p>
       </div>
 
       {/* KPI Row */}
@@ -370,18 +370,18 @@ export function AdminOverview() {
             <div className="flex items-center gap-2">
               <VendorBadge vendor="CoinbaseCDP" />
               <span className="text-sm font-semibold tabular-nums text-text-primary">{vendorCounts.CoinbaseCDP}</span>
-              <span className="text-xs text-text-muted">providers</span>
+              <span className="text-xs text-text-secondary">providers</span>
             </div>
             <div className="flex items-center gap-2">
               <VendorBadge vendor="StripePrivy" />
               <span className="text-sm font-semibold tabular-nums text-text-primary">{vendorCounts.StripePrivy}</span>
-              <span className="text-xs text-text-muted">providers</span>
+              <span className="text-xs text-text-secondary">providers</span>
             </div>
             {vendorCounts.Unknown > 0 && (
               <div className="flex items-center gap-2">
                 <VendorBadge vendor={null} />
                 <span className="text-sm font-semibold tabular-nums text-text-primary">{vendorCounts.Unknown}</span>
-                <span className="text-xs text-text-muted">providers</span>
+                <span className="text-xs text-text-secondary">providers</span>
               </div>
             )}
           </div>
@@ -400,9 +400,9 @@ export function AdminOverview() {
                 <XAxis dataKey="name" tick={{ fill: '#9ca3af', fontSize: 12 }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fill: '#9ca3af', fontSize: 12 }} axisLine={false} tickLine={false} allowDecimals={false} />
                 <Tooltip
-                  contentStyle={{ background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 12, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  labelStyle={{ color: '#111827' }}
-                  itemStyle={{ color: '#4b5563' }}
+                  contentStyle={{ background: 'var(--bg-1)', border: '1px solid var(--border-color)', borderRadius: 8, fontSize: 12, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  labelStyle={{ color: 'var(--text-0)' }}
+                  itemStyle={{ color: 'var(--text-1)' }}
                 />
                 <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                   {chartData.map((entry, i) => (

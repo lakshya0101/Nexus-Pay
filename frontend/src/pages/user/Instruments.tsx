@@ -249,11 +249,11 @@ export function Instruments() {
   ]
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 animate-fade-in-up">
+      <div className="flex items-center justify-between border-b border-border/10 pb-4">
         <div>
-          <h1 className="text-lg font-bold text-text-primary">My Instruments</h1>
-          <p className="text-xs text-text-muted mt-0.5">Embedded crypto wallets provisioned for payments</p>
+          <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight">My Instruments</h1>
+          <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">Embedded crypto wallets provisioned for payments</p>
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" size="sm" onClick={refresh} disabled={loading} icon={<RefreshCw size={14} />}>Refresh</Button>
@@ -353,34 +353,67 @@ export function Instruments() {
               const details = getWalletDetails(viewing)
               const instVendor = getInstrumentVendor(viewing, paymentConnectors)
               return (
-                <div className="mt-4 space-y-3 text-sm">
-                  {/* Vendor header */}
-                  <div className="flex items-center gap-2">
-                    <VendorBadge vendor={instVendor} />
-                    <span className="text-[10px] text-text-muted">{vendorSubLabel(instVendor)}</span>
-                  </div>
-                  {([['Instrument ID', viewing.paymentInstrumentId], ['Type', viewing.paymentInstrumentType],
-                    ['Network', details.network],
-                    // Linked Email only shows when the service returns one;
-                    // omit the row entirely rather than render a blank dash.
-                    ...(details.email ? [['Linked Email', details.email]] as [string, string | undefined][] : []),
-                    ['Connector ID', viewing.paymentConnectorId], ['Status', viewing.status],
-                    ['Created', viewing.createdAt ? formatDate(viewing.createdAt) : undefined],
-                  ] as [string, string | undefined][]).map(([label, value]) => (
-                    <div key={label} className="flex justify-between gap-4">
-                      <span className="text-text-muted shrink-0">{label}</span>
-                      <span className="text-text-primary font-mono text-xs text-right break-all">{value || '—'}</span>
+                <div className="mt-4 space-y-4 text-sm">
+                  {/* Virtual Premium Card Layout */}
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-surface-2 to-surface-3 border border-border/80 p-6 shadow-xl h-44 flex flex-col justify-between group transition-all duration-500 ease-out hover:border-border-hover/60 hover:-translate-y-0.5">
+                    {/* Glow effect - Network specific */}
+                    <div className={"absolute top-0 right-0 h-36 w-36 rounded-full blur-2xl pointer-events-none transition-all duration-500 " + (details.network === 'SOLANA' ? 'bg-indigo-500/10' : 'bg-emerald-500/10')} />
+                    {/* Subtle gloss reflection sweep on hover */}
+                    <div className="absolute top-0 -left-[100%] w-[60%] h-full bg-gradient-to-r from-transparent via-white/8 to-transparent skew-x-[-25deg] transition-all duration-1000 ease-out group-hover:left-[150%] pointer-events-none" />
+                    
+                    <div className="flex justify-between items-start z-10">
+                      <div className="space-y-0.5">
+                        <p className="text-[9px] uppercase tracking-widest text-text-secondary font-bold">Nexus Card</p>
+                        <p className="text-xs font-bold text-text-primary">{details.network || 'UNKNOWN'}</p>
+                      </div>
+                      <VendorBadge vendor={instVendor} className="border border-border/10" />
                     </div>
-                  ))}
+                    <div className="z-10">
+                      {details.walletAddress ? (
+                        <p className="text-sm font-mono tracking-widest text-text-primary/90">
+                          {details.walletAddress.slice(0, 6)} •••• •••• {details.walletAddress.slice(-4)}
+                        </p>
+                      ) : (
+                        <p className="text-sm font-mono tracking-widest text-text-muted">PENDING PROVISION</p>
+                      )}
+                    </div>
+                    <div className="flex justify-between items-end z-10">
+                      <div className="space-y-0.5">
+                        <p className="text-[9px] uppercase tracking-widest text-text-secondary font-mono">USDC Balance</p>
+                        <p className="text-base font-extrabold text-text-primary">
+                          {balanceLoading ? '...' : balances ? `${parseFloat(balances.usdc).toFixed(2)} USDC` : '0.00 USDC'}
+                        </p>
+                      </div>
+                      <p className="text-[9px] uppercase tracking-widest text-text-secondary font-mono">{viewing.status}</p>
+                    </div>
+                  </div>
+
+                  {/* Details fields */}
+                  <div className="space-y-2.5 pt-2">
+                    {([['Instrument ID', viewing.paymentInstrumentId], ['Type', viewing.paymentInstrumentType],
+                      ['Network', details.network],
+                      // Linked Email only shows when the service returns one;
+                      // omit the row entirely rather than render a blank dash.
+                      ...(details.email ? [['Linked Email', details.email]] as [string, string | undefined][] : []),
+                      ['Connector ID', viewing.paymentConnectorId], ['Status', viewing.status],
+                      ['Created', viewing.createdAt ? formatDate(viewing.createdAt) : undefined],
+                    ] as [string, string | undefined][]).map(([label, value]) => (
+                      <div key={label} className="flex justify-between gap-4 border-b border-border/10 pb-1.5 last:border-b-0">
+                        <span className="text-text-secondary font-medium shrink-0">{label}</span>
+                        <span className="text-text-primary font-mono text-xs text-right break-all">{value || '—'}</span>
+                      </div>
+                    ))}
+                  </div>
+
                   {details.walletAddress && (
-                    <div className="mt-2 rounded-lg bg-surface-2 p-3">
+                    <div className="rounded-lg bg-surface-2 border border-border/40 p-3">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-text-muted">Wallet Address</span>
+                        <span className="text-xs font-semibold text-text-secondary">Wallet Address</span>
                         <Button variant="ghost" size="sm" onClick={() => copyAddress(details.walletAddress!)}>
                           {copied ? <Check size={12} className="text-success" /> : <Copy size={12} />}
                         </Button>
                       </div>
-                      <p className="text-xs font-mono text-accent break-all">{details.walletAddress}</p>
+                      <p className="text-xs font-mono text-accent break-all select-all">{details.walletAddress}</p>
                     </div>
                   )}
                   {/* Signing status — vendor aware */}

@@ -51,12 +51,12 @@ export function SellerSetup() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-lg font-bold text-text-primary flex items-center gap-2">
-          <Store size={18} /> Seller Setup
+    <div className="space-y-6 animate-fade-in-up">
+      <div className="border-b border-border/10 pb-4">
+        <h1 className="text-3xl font-bold font-serif text-text-primary tracking-tight flex items-center gap-2">
+          <Store size={24} className="text-accent" /> Seller Setup
         </h1>
-        <p className="text-xs text-text-muted mt-0.5">
+        <p className="text-xs text-text-secondary mt-1 leading-relaxed font-medium">
           Provision the storefront's payout wallets so the agent economy can collect payments and issue refunds.
         </p>
       </div>
