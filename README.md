@@ -4,7 +4,7 @@
 
 > **Let AI handle payments. Never let AI have uncontrolled access to your money.**
 
-Nexus Pay is a permission and financial execution layer for autonomous AI agents. Built on **AWS AgentCore Payments**, the **x402 protocol**, and **testnet USDC**, Nexus Pay allows users to interact with an AI payment agent while retaining strict, cloud-enforced control over spending limits, session durations, and wallet credentials.
+Nexus Pay is a permission and financial execution layer for autonomous AI agents. Built on **AWS AgentCore Payments**, the **x402 protocol**, and **testnet USDC**, Nexus Pay allows users to interact with an AI payment agent while retaining strict, cloud-enforced control over spending limits, session durations, and wallet credentials!
 
 ---
 
