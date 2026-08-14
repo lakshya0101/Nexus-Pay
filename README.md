@@ -27,7 +27,6 @@ Nexus Pay delivers a complete, end-to-end interface and runtime architecture for
 - **Dual-Mode Architecture:** A standalone **Local Demo Mode** for immediate evaluation and UI walkthroughs without cloud dependencies, seamlessly transitioning to a **Connected AWS Mode** with full cloud serverless and AgentCore infrastructure.
 
 ---
-DEMO VIDEO
 
 ## Key Features
 
@@ -199,22 +198,6 @@ sequenceDiagram
 
 You can run and evaluate the complete Nexus Pay frontend locally in **Local Demo Mode** with zero cloud setup or AWS credentials.
 
-### Quick Start
-
-```bash
-# 1. Navigate to the frontend directory
-cd frontend
-
-# 2. Install dependencies cleanly
-npm ci
-
-# 3. Start the local development server
-npm run dev
-```
-
-Open your browser and navigate to:
-```
-http://localhost:3000/
 ```
 
 ### Navigating the Demo Mode
@@ -278,50 +261,6 @@ AWS Cloud
 - **Currency:** Testnet USDC
 - **Micropayment Protocol:** x402 open payment protocol
 - **Signature Schemes:** EIP-3009 (`ReceiveWithAuthorization`) on EVM, SPL Token Transfer on Solana
-
----
-
-## Project Structure
-
-```text
-Nexus-Pay/
-├── frontend/                     # React 19 + Vite Web Application
-│   ├── src/
-│   │   ├── components/           # UI design system (Cards, Buttons, Badges, Modals, Layout)
-│   │   ├── lib/                  # API clients, Cognito auth helpers, WebSocket handlers
-│   │   ├── pages/                # Application routes
-│   │   │   ├── admin/            # Admin control plane (Providers, Managers, Connectors, Seller)
-│   │   │   └── user/             # User views (Dashboard, Pay, Wallets, Agent, Allowances, History)
-│   │   ├── store/                # Zustand state stores (auth, user, chat)
-│   │   └── types/                # TypeScript domain models (PaymentInstrument, PaymentSession, etc.)
-│   ├── package.json
-│   └── vite.config.ts
-│
-├── backend/                      # AWS CDK Serverless Infrastructure
-│   ├── bin/                      # CDK App entry point
-│   ├── lib/                      # CDK Stacks (PaymentAgentStack, DynamoDB, Cognito, Lambdas)
-│   └── lambdas/                  # Python Lambda handlers
-│       ├── admin/                # Credential providers, managers, connectors, seller setup
-│       ├── user/                 # Payment options, instruments, sessions, WebSocket URL minting
-│       └── seller/               # Storefront products, orders, refunds, image generation
-│
-├── payment-agent/                # Containerized AI Agent Service
-│   ├── agent.py                  # FastAPI server, Strands agent definition, WebSocket stream
-│   ├── tools.py                  # Agent tools (check_balance, buy_product, generate_image, etc.)
-│   ├── config.py                 # Environment and AgentCore runtime configuration
-│   ├── requirements.txt
-│   └── Dockerfile
-│
-├── docs/                         # Technical Documentation & Specifications
-│   ├── ARCHITECTURE.md           # System architecture and deployment boundaries
-│   ├── SYSTEM_DESIGN.md          # Multi-tiered system design and data paths
-│   ├── AGENT_FLOW.md             # Agent lifecycle, communication protocols, and tool calling
-│   ├── PAYMENT_FLOW.md           # Payment state machine, x402 loop, and settlement
-│   ├── DATA_SCHEMA.md            # TypeScript interfaces and data model definitions
-│   └── API_REFERENCE.md          # REST endpoints and WebSocket message specifications
-│
-└── package.json                  # Root integration scripts
-```
 
 ---
 
