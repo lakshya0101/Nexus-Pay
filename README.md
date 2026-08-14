@@ -27,6 +27,7 @@ Nexus Pay delivers a complete, end-to-end interface and runtime architecture for
 - **Dual-Mode Architecture:** A standalone **Local Demo Mode** for immediate evaluation and UI walkthroughs without cloud dependencies, seamlessly transitioning to a **Connected AWS Mode** with full cloud serverless and AgentCore infrastructure.
 
 ---
+DEMO VIDEO
 
 ## Key Features
 
