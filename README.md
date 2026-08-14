@@ -345,5 +345,3 @@ By enforcing explicit spending allowances and payment boundaries, Nexus Pay enab
   <br>
   <em>Autonomy without giving up control.</em>
 </p>
-ving up control.</em>
-</p>
