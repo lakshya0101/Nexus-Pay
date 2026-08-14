@@ -373,20 +373,20 @@ Nexus Pay is built around defense-in-depth principles to ensure safe autonomous 
 
 ## 👥 Team Titans
 
-**Team Titans** — built for the NTU InnovateX Hackathon 2026.
+**Team Titans** — built with ❤️ for the NTU InnovateX Hackathon 2026.
 
 ### Team Members
 
 - **Lakshya Dogra** — Student
 - **Vishesh Nigam** — Student
 - **Aditya Agrawal** — Student
-- 
+
 ---
 
 ## 🚀 Explore Nexus Pay
 
 **[🌐 Try the Live Demo](https://nexuspay-ai.netlify.app)**
-
+**[🎥 Watch the Demo Video](https://drive.google.com/file/d/1cPTpWunZ1gzjIm-Zo69YA7xyDCf70Jry/view?usp=sharing)**
 **[💻 View the Source Code](https://github.com/lakshya0101/Nexus-Pay)**
 
 > **Autonomy without giving up control.**
@@ -401,8 +401,8 @@ By enforcing explicit spending allowances and payment boundaries, Nexus Pay enab
 
 ---
 
-## Submission Note
-
-Nexus Pay demonstrates a production-grade blueprint for the future of agentic Web3 payments. By combining conversational AI interactions, cryptographically bounded payment sessions, the open x402 payment standard, and Amazon Bedrock AgentCore infrastructure, Nexus Pay proves that autonomous agents can transact safely, efficiently, and transparently in the decentralized economy.
-
----
+<p align="center">
+  © 2026 Team Titans · Nexus Pay
+  <br>
+  <em>Autonomy without giving up control.</em>
+</p>
