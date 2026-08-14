@@ -230,7 +230,6 @@ AWS Cloud
 ├── Amazon Bedrock AgentCore ── Agent runtime environment with Claude Sonnet & Amazon Nova
 ├── AgentCore Payments       ── Token Vault signing & ProcessPayment authorization service
 └── AWS CodeBuild / ECR      ── Containerized build and deployment pipeline for the agent image
-```
 
 *Note: Live cloud execution requires deploying the AWS CDK stack (`backend/`) and configuring the necessary credential providers.*
 
@@ -345,4 +344,6 @@ By enforcing explicit spending allowances and payment boundaries, Nexus Pay enab
   © 2026 Team Titans · Nexus Pay
   <br>
   <em>Autonomy without giving up control.</em>
+</p>
+ving up control.</em>
 </p>
