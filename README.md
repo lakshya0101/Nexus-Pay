@@ -371,14 +371,38 @@ Nexus Pay is built around defense-in-depth principles to ensure safe autonomous 
 
 ---
 
-## Team & Attribution
+## 👥 Team Titans
 
-- **Project:** Nexus Pay
-- **Upstream Reference & Foundation:** Built upon architectural patterns from the AWS Digital Asset Samples collection by Chris Wajule and Simon Goldberg.
-- **Hackathon Submission:** Nexus Pay — Agentic Web3 Payment Infrastructure.
+**Team Titans** — built for the NTU InnovateX Hackathon 2026.
+
+### Team Members
+
+- **Lakshya Dogra** — Student
+- **Vishesh Nigam** — Student
+- **Aditya Agrawal** — Student
+- 
+---
+
+## 🚀 Explore Nexus Pay
+
+**[🌐 Try the Live Demo](https://nexuspay-ai.netlify.app)**
+
+**[💻 View the Source Code](https://github.com/lakshya0101/Nexus-Pay)**
+
+> **Autonomy without giving up control.**
+
+---
+
+## Submission Note
+
+Nexus Pay demonstrates a **production-oriented blueprint for agentic Web3 payments**, combining conversational AI, programmatically bounded payment sessions, the open **x402 payment standard**, and **Amazon Bedrock AgentCore** infrastructure.
+
+By enforcing explicit spending allowances and payment boundaries, Nexus Pay enables autonomous agents to execute payment actions while keeping users in control of how, when, and how much an agent can spend.
 
 ---
 
 ## Submission Note
 
 Nexus Pay demonstrates a production-grade blueprint for the future of agentic Web3 payments. By combining conversational AI interactions, cryptographically bounded payment sessions, the open x402 payment standard, and Amazon Bedrock AgentCore infrastructure, Nexus Pay proves that autonomous agents can transact safely, efficiently, and transparently in the decentralized economy.
+
+---
