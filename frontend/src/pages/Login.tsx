@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { useAuthStore } from '@/store/auth'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { Zap, ShieldCheck, ArrowRight } from 'lucide-react'
+import { ShieldCheck, ArrowRight } from 'lucide-react'
+import { NexusLogo } from '@/components/ui/NexusLogo'
 import { cn } from '@/lib/utils'
 import { isAuthConfigured } from '@/lib/auth'
 
@@ -139,8 +140,8 @@ export function Login() {
       <div className="w-full max-w-sm rounded-xl border border-border/70 bg-surface-1/40 backdrop-blur-lg p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_2px_rgba(255,255,255,0.03)] space-y-6 relative z-10 animate-materialize">
         {/* Brand Icon & Title - Step 1 & 2 */}
         <div className="flex flex-col items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20 reveal-step-1">
-            <Zap size={24} strokeWidth={2.2} />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-2/80 border border-border/80 shadow-md shadow-indigo-500/10 reveal-step-1">
+            <NexusLogo size={32} />
           </div>
           <div className="text-center space-y-1 reveal-step-2">
             <h1 className="text-2xl font-bold tracking-tight text-text-primary">NEXUS PAY</h1>

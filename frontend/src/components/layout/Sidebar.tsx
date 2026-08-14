@@ -4,9 +4,10 @@ import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, KeyRound, CreditCard, Link2, Wallet,
   BookOpen, Shield, User, LogOut,
-  Store, ShoppingBag, Send, Sparkles, Sliders, History, Zap,
+  Store, ShoppingBag, Send, Sparkles, Sliders, History,
   Sun, Moon,
 } from 'lucide-react'
+import { NexusLogo } from '@/components/ui/NexusLogo'
 import { useAuthStore } from '@/store/auth'
 
 const adminLinks = [
@@ -85,11 +86,11 @@ export function Sidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 flex w-60 flex-col border-r border-border bg-surface-1">
       <div className="flex h-14 items-center gap-2.5 px-5 border-b border-border">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-sm">
-          <Zap size={15} strokeWidth={2.5} />
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-2/80 border border-border/70 shadow-sm">
+          <NexusLogo size={19} />
         </div>
         <div className="flex flex-col">
-          <span className="text-sm font-bold tracking-tight text-text-primary">Nexus Pay</span>
+          <span className="text-sm font-bold tracking-wider text-text-primary uppercase">NEXUS PAY</span>
           <span className="text-[9px] font-medium text-text-muted">Web3 Payments & AI</span>
         </div>
       </div>
