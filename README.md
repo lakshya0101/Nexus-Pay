@@ -2,7 +2,7 @@
 
 > **Intelligent Payments. Built for Web3.**
 
-Nexus Pay is a next-generation programmable  Web3 payment experience designed for the emerging agentic economy. It bridges autonomous AI agents and decentralized finance by providing a secure, bounded execution layer for Web3 payments—combining conversational AI interfaces, multi-chain payment instruments, programmable spending allowances, HTTP 402 payment protocol integration, and AWS Bedrock AgentCore payment infrastructure.
+Nexus Pay is a next-generation programmable Web3 payment experience designed for the emerging agentic economy. It bridges autonomous AI agents and decentralized finance by providing a secure, bounded execution layer for Web3 payments—combining conversational AI interfaces, multi-chain payment instruments, programmable spending allowances, HTTP 402 payment protocol integration, and AWS Bedrock AgentCore payment infrastructure.
 
 ---
 
